@@ -1,0 +1,82 @@
+.card{
+    width: 70%;
+    margin: auto;
+    background: linear-gradient(to right, #E9E4F0, #D3CCE3); 
+    padding: 1%;
+}
+.createButton{
+    margin-top:30px;
+}
+
+.container-tweet {
+    width: 60%;
+    margin: auto;
+}
+
+#create .heading {
+    width: 100%;
+    text-align: center ;
+    padding: 15px 0;
+}
+
+#create .inside {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    
+}
+#create input {
+    display: block;
+    margin-bottom: 20px;
+    padding: 20px;
+    outline: none;
+    border-radius: 10px;
+    width: 100%;
+
+}
+
+#create textarea{
+    margin-bottom: 20px;
+}
+
+#create label{
+    font-weight: 600;
+}
+
+
+
+#create  .btn-container {
+width: 100%;
+display: block ;
+ text-align: center;
+
+}
+
+#create  .btn-container  button{
+    margin: 20px 0 0 0;
+    background: dodgerblue;
+    padding: 20px 30px;
+    border-radius: 3px;
+    color: ghostwhite;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    
+    
+ }
+
+.form{
+    width: 40%;
+    margin: auto;
+}
+
+.loginHeader{
+    margin: 5% 0 50px 0;
+    text-align: center;
+}
+
+.btn{
+    margin: auto;
+}

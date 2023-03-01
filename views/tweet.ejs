@@ -1,0 +1,25 @@
+<%-include('partials/header.ejs') %>
+
+<div>
+<% results.forEach((result)=>{ %>
+    <section class="container-tweet">
+        <div class="d-flex flex-column w-100" style="margin:auto"}>
+            <div class="image">
+                <img src="" alt="">
+            </div>
+            <%results.forEach((result)=>{%>
+                <div class="card mt-3">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= result.title %></h5>
+                      <h6><%= result.createdUser %></h6>
+                      <p class="card-text"><%= result.body %></p>
+                    </div>
+                  </div>
+            <% }) %>
+        </div>
+    </section>
+<% }) %>
+</div>
+
+
+<%-include('partials/footer.ejs')%>
