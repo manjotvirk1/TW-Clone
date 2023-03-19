@@ -1,0 +1,21 @@
+
+    <div class="container-tweet text-center">
+        
+        <div class="d-flex flex-column w-100" style="margin:auto"}>
+            
+            <%results.forEach((result)=>{%>
+                <div class="card mt-3">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= result.title %></h5>
+                      <p class="card-text"><%= result.createdUser %></p>
+                      <p class="card-text"><%= result.body %></p>    
+                    </div>
+                    <form method="post" action="/api/admin/deletetweet/<%= result.id%>">
+                        <button class="btn">Delete Tweet</button>
+                    </form>
+                  </div>
+            <% }) %>
+        </div>
+    </div>
+
+<%-include('partials/footer.ejs') %>

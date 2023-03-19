@@ -97,7 +97,18 @@ app.post('/api/delete/:id',(req,res)=>{
 app.get('/api/edit/:id',(req,res)=>{
     let username=req.session.username;
     let id=req.params.id;
-    res.render('edit',{username,id});
+    let sqlQuery="SELECT * FROM tweets WHERE id = "+req.params.id;
+    let title,description;
+    let query=conn.query(sqlQuery,(err,results)=>{
+        results.forEach((result)=>{
+            title=result.title;
+            description=result.body;
+        })
+        // let result=results.json;
+        // console.log(result);
+        res.render("edit", {id,title,description,username})
+    })
+    
 })
 
 app.post('/edit/:id',(req,res)=>{
@@ -117,6 +128,7 @@ app.post('/edit/:id',(req,res)=>{
 app.post('/auth',(req,res)=>{
     let username=req.body.user;
     let password=req.body.password;
+    let admin=req.body.isAdmin;
     if(username && password){
       let sqlQuery='SELECT * FROM userauth  WHERE username =? AND password= ?';
       conn.query(sqlQuery,[username,password],(err,results)=>{
@@ -124,7 +136,10 @@ app.post('/auth',(req,res)=>{
         if(results.length>0){
           req.session.loggedin=true;
           req.session.username=username;
-          res.redirect('/');
+          req.session.admin=results.admin;
+          
+          if(admin)res.render('adminpanel');
+          else res.redirect('/');
         }
         else{
             res.send('Incorrect Username and password');
@@ -137,6 +152,59 @@ app.post('/auth',(req,res)=>{
       res.redirect("/");
     }
   })
+
+
+app.get('/api/admin/users',(req,res)=>{
+    let sqlQuery="SELECT * FROM userauth where isAdmin = 0";
+    let query=conn.query(sqlQuery,(err,results)=>{
+        if(err)throw err;
+        // res.send(results);
+        res.render("admin",{results});
+    })
+})
+
+app.post('/api/admin/delete/:id',(req,res)=>{
+    let sqlQuery="DELETE FROM userauth where id = "+req.params.id;
+    let query=conn.query(sqlQuery,(err,results)=>{
+        if(err)throw err;
+        res.redirect('/api/admin/users');
+    })
+})
+
+app.get('/api/admin/tweets',(req,res)=>{
+    let sqlQuery="SELECT * FROM tweets ";
+    let query=conn.query(sqlQuery,(err,results)=>{
+        if(err)throw err;
+        res.render("admintweets",{results});
+    })
+})
+
+app.post('/api/admin/deletetweets',(req,res)=>{
+    let sqlQuery="DELETE FROM tweets";
+    let query=conn.query(sqlQuery,(err,results)=>{
+        if(err)throw err;
+        else console.log("All tweets deleted");
+        res.render('adminpanel');
+    })
+})
+
+
+app.post('/api/admin/deletetweet/:id',(req,res)=>{
+    let sqlQuery="DELETE FROM tweets where id = "+req.params.id;
+    let query=conn.query(sqlQuery,(err,results)=>{
+        if(err)throw err;
+        res.redirect('/api/admin/tweets');
+    })
+})
+
+app.post('/api/admin/viewtweet/:username',(req,res)=>{
+    let sqlQuery=`SELECT * FROM tweets where createdUser= "${req.params.username}"`;
+    let query=conn.query(sqlQuery,(err,results)=>{
+        if(err)throw err;
+        res.render("admintweets",{results});
+    })
+})
+
 
 app.listen(5000,function(req,res){
     console.log("Connected to port 5000");

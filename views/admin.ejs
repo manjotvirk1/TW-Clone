@@ -1,0 +1,23 @@
+
+    <div class="container-tweet text-center">
+        
+        <div class="d-flex flex-column w-100" style="margin:auto"}>
+            <%results.forEach((result)=>{%>
+                <div class="card mt-3">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= result.username %></h5>
+                      <p class="card-text"><%= result.email %></p>
+                    
+                      <form method="post" action="/api/admin/delete/<%= result.id%>">
+                      <button class="btn">Delete User</button>
+                      </form>
+                      <form method="post" action="/api/admin/viewtweet/<%= result.username%>">
+                        <button class="btn">View tweets by user</button>
+                        </form>
+                    </div>
+                  </div>
+            <% }) %>
+        </div>
+    </div>
+
+<%-include('partials/footer.ejs') %>
